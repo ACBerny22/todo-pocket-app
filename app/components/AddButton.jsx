@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { createTask, createTaskSDK } from "../lib/pocketbase";
 
 export default function AddButton(){
 
@@ -55,21 +56,12 @@ export default function AddButton(){
         console.log('Importance:', priority);
 
         
-        await fetch('http://127.0.0.1:8090/api/collections/tasks/records', {
-            method:'POST',
-            headers:{
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                title,
-                details,
-                priority
-            })
-        })
+        await createTaskSDK(title, details, priority);
 
         closePopup();
         router.refresh();
-      };
+        window.location.reload();
+    };
     
 
     return (
@@ -85,12 +77,14 @@ export default function AddButton(){
                         <h2 className="font-bold text-xl">Create a New Task</h2>
                         <form onSubmit={handleSubmit} className='flex flex-col gap-5 text-lg'>
                             <label className="flex gap-2">
-                                <input type="text" value={title} onChange={handleTitleChange}  placeholder="Title" required/>
+                                <input className="p-2"
+                                type="text" value={title} onChange={handleTitleChange}  placeholder="Title" required/>
                             </label>
                             <label className="flex gap-2">
-                                <input type="text" value={details} onChange={handleDetailsChange} placeholder="Description" required/>
+                                <input className="p-2"
+                                type="text" value={details} onChange={handleDetailsChange} placeholder="Description" required/>
                             </label>
-                            <input
+                            <input className="p-2"
                                 required
                                 type="text"
                                 value={priority}
@@ -107,9 +101,11 @@ export default function AddButton(){
                                 ))}
                                 </div>
                             )}
-                            <button type="submit" className="p-4 bg-blue-400 text-white font-bold text-lg rounded-2xl">Submit</button>
+                            <button type="submit" className="p-4 bg-blue-400 text-white font-bold text-lg rounded-2xl border-2 border-blue-400
+                            hover:bg-transparent hover:text-blue-400 hover:border-2 transition-all ease-out duration-200">Submit</button>
                         </form>
-                        <button onClick={closePopup} className="p-4 bg-red-400 text-white font-bold text-lg rounded-2xl">Close</button>
+                        <button onClick={closePopup} className="p-4 bg-red-400 text-white font-bold text-lg rounded-2xl border-2 border-red-400
+                        hover:bg-transparent hover:text-red-400 hover:border-2 transition-all ease-out duration-200">Close</button>
                     </div>
                 </div>
             )}

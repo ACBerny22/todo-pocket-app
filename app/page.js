@@ -1,36 +1,57 @@
+'use client';
+
 import Image from 'next/image'
-import PocketBase from 'pocketbase';
-import NoteSingle from './components/NoteSingle'
-import AddButton from './components/AddButton';
+import pb from './lib/pocketbase';
+import { useRouter } from "next/navigation";
+import { login, isUserValid, signout, nameOfTheBastard, loginAPI } from './lib/pocketbase';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { useLoggedState, useLoggedModel } from './states/LoggedState';
+import LoginForm from './components/LoginForm';
 
 
-async function getTasks(){
-  const res = await fetch('http://127.0.0.1:8090/api/collections/tasks/records?sort=-created,id', {cache: 'no-store'});
-  const data = await res.json();
+export default function Home() {
 
-  return data?.items;
-}
+  const [mounted, setMounted] = useState(false);
+  const router = useRouter();
 
-export default async function Home() {
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  
+  useEffect(() => {
+    console.log(nameOfTheBastard);
+  }, [])
+ 
 
-  const tasks = await getTasks();
+  const handleLogOut = () => {
+    signout(identity, password);
+  }
 
-  console.log(tasks);
+  function BaseRender(){
+    if(isUserValid){
+      return(
+      <div>
+        <div className='flex flex-col justify-center items-center gap-12 my-20 text-center mx-10'>
+        <h1 className='text-6xl font-bold'>Welcome back!!</h1>
+         <Link href={'./tasks'}>
+           <p className='p-3 bg-blue-500 text-white'>Go to the tasks</p>
+         </Link>
+       </div>
+     </div>
+     );
+    }
+    else{
+      return(
+        <LoginForm/>
+      );
+    }
+  }
 
+  if (!mounted) return <></>;
   return (
-    <main className=' bg-zinc-100'>
-      <div className='mx-10 pb-20'>
-        <h1 className='text-5xl font-bold py-10'>To-do App</h1>
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10'>
-        {tasks?.map((note) => {
-          return (
-              <NoteSingle title={note.title} details={note.details} id={note.id}
-              priority={note.priority} created={note.created.slice(0,16)}/>
-          );    
-        })}
-        <AddButton></AddButton>
-        </div>
-      </div>
-    </main>
+    <div>
+      <BaseRender></BaseRender> 
+    </div>
   )
 }
