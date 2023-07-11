@@ -60,7 +60,7 @@ export default function AddButton(){
 
         closePopup();
         router.refresh();
-        window.location.reload();
+        //window.location.reload();
     };
     
 

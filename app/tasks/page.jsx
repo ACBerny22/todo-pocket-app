@@ -3,33 +3,35 @@
 import NoteSingle from '../components/NoteSingle'
 import AddButton from '../components/AddButton';
 import {getTasksSDK, getTasks} from '../lib/pocketbase';
-import { useEffect, useState } from 'react';
+//import { useEffect, useState } from 'react';
 
 
-export default function Home() {
+export default async function Home() {
 
-  const [tasks, setTasks] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  //const [tasks, setTasks] = useState([]);
+  //const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    async function callback(){
-      setIsLoading(true);
-      const data = await getTasksSDK();
-      setTasks(data);
-      setIsLoading(false);
-    }
-    //getTasksSDK().then((res) => {setTasks(res)});
-    callback();
-  }, [])
+  const tasks = await getTasksSDK();
 
-  if(isLoading){
-    return(
-      <div className='text-5xl font-bold flex justify-center my-20 gap-10'>
-        <div className="animate-spin rounded-full h-14 w-14 border-t-4 border-blue-500"></div>
-        <h1>Loading...</h1>
-      </div>
-    );
-  }
+  // useEffect(() => {
+  //   async function callback(){
+  //     setIsLoading(true);
+  //     const data = await getTasksSDK();
+  //     setTasks(data);
+  //     setIsLoading(false);
+  //   }
+  //   //getTasksSDK().then((res) => {setTasks(res)});
+  //   callback();
+  // }, [])
+
+  // if(isLoading){
+  //   return(
+  //     <div className='text-5xl font-bold flex justify-center my-20 gap-10'>
+  //       <div className="animate-spin rounded-full h-14 w-14 border-t-4 border-blue-500"></div>
+  //       <h1>Loading...</h1>
+  //     </div>
+  //   );
+  // }
 
   return (
     

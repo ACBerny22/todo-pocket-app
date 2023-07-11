@@ -1,12 +1,19 @@
-import { getSingleTask } from "@/app/lib/pocketbase";
+
+import { getSingleTask, deleteTask } from "@/app/lib/pocketbase";
 import NoteSingle from "@/app/components/NoteSingle";
 import {AiFillDelete, AiFillEdit} from 'react-icons/ai'
 import DeleteButton from "@/app/components/DeleteButton";
+import { redirect } from 'next/navigation';
 
 
 export default async function({params}){
 
     const note = await getSingleTask(params.id)
+
+    function handleDelete(id){
+        deleteTask(id);
+        redirect('/tasks');
+    }
 
     return(
         <div className="flex flex-col gap-10 p-10 justify-center">
