@@ -1,5 +1,5 @@
 import PocketBase from "pocketbase"
-import { useRouter } from "next/navigation";
+import { useRouter, redirect } from "next/navigation";
 
 
 const pb = new PocketBase('https://pocket-do.pockethost.io');
@@ -73,7 +73,10 @@ export async function getTasks(){
   }
 
   export async function login(username, password){
-    await pb.collection("users").authWithPassword(username, password);
+    const res = await pb.collection("users").authWithPassword(username, password).catch(() => {
+      alert("Failed to Authenticate, bad credentials!!")
+    });
+
     window.location.reload();
   }
 
@@ -93,7 +96,10 @@ export async function getTasks(){
   }
 
   export function signout(){
+    
     pb.authStore.clear();
+    redirect('/');
+
   }
 
 export default pb;
