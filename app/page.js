@@ -35,7 +35,7 @@ export default function Home() {
         <div className='flex flex-col justify-center items-center gap-12 my-20 text-center mx-10'>
         <h1 className='text-6xl font-bold'>Welcome back!!</h1>
          <Link href={'./tasks'}>
-           <p className='p-3 bg-blue-500 text-white'>Go to the tasks</p>
+           <p className='p-3 bg-blue-500 text-white'>View all tasks</p>
          </Link>
        </div>
      </div>

@@ -32,9 +32,9 @@ export default function NavBar(props){
     const [mounted, setMounted] = useState(false);
     const router = useRouter();
 
-    async function handleLogOut(){
+    function handleLogOut(){
         signout();
-        router.push('/');
+        redirect('/');
     }
 
     useEffect(() => {
@@ -43,7 +43,7 @@ export default function NavBar(props){
 
     if (!mounted) return <></>;
     return(
-        <div className="p-10 shadow-lg text-center">
+        <div className="p-10 text-center">
             <div className="mx-8 flex justify-between ">
                 <Link href={'/'} className='p-3'>
                     <p className="font-light text-3xl">Simple To-Do App</p>

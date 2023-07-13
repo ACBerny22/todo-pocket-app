@@ -1,11 +1,15 @@
 // We can still put create client, thus, we can render client components inside server components.
 import Link from "next/link";
+import {AiFillExclamationCircle} from 'react-icons/ai'
 
 function Importance(props){
     return(
         <div className="flex">
             {props.prior == 'Important' ? (
-                <p className="p-2 rounded-xl bg-red-400 text-white font-medium">{props.prior}</p>
+                <p className="p-2 rounded-xl bg-red-400 text-white font-medium flex gap-2">
+                    <AiFillExclamationCircle className="text-lg mt-1"></AiFillExclamationCircle>
+                    {props.prior}
+                </p>
             ) : props.prior == 'Not Important' ? (
                 <p className="p-2 rounded-xl bg-blue-400 text-white font-medium">{props.prior}</p>
             ) : props.prior == 'Loose'  ? (

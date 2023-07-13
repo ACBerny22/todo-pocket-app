@@ -1,4 +1,6 @@
 import PocketBase from "pocketbase"
+import { useRouter } from "next/navigation";
+
 
 const pb = new PocketBase('https://pocket-do.pockethost.io');
 pb.autoCancellation(false);
@@ -57,6 +59,17 @@ export async function getTasks(){
 
   export async function deleteTask(id){
     await pb.collection('tasks').delete(id);
+  }
+
+  export async function editTask(id, title, details, priority, user){
+    const data = {
+      "title": title,
+      "details": details,
+      "priority": priority,
+      "user": user
+  };
+  
+  const record = await pb.collection('tasks').update(id, data);
   }
 
   export async function login(username, password){

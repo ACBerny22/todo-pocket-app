@@ -2,42 +2,48 @@
 
 import NoteSingle from '../components/NoteSingle'
 import AddButton from '../components/AddButton';
-import {getTasksSDK, getTasks} from '../lib/pocketbase';
-//import { useEffect, useState } from 'react';
+import {getTasksSDK} from '../lib/pocketbase';
+import { useEffect, useState } from 'react';
 
 
-export default async function Home() {
+export default function Home() {
 
-  //const [tasks, setTasks] = useState([]);
-  //const [isLoading, setIsLoading] = useState(false);
+  const [domLoaded, setDomLoaded] = useState(false);
+  const [tasks, setTasks] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const tasks = await getTasksSDK();
 
-  // useEffect(() => {
-  //   async function callback(){
-  //     setIsLoading(true);
-  //     const data = await getTasksSDK();
-  //     setTasks(data);
-  //     setIsLoading(false);
-  //   }
-  //   //getTasksSDK().then((res) => {setTasks(res)});
-  //   callback();
-  // }, [])
+  useEffect(() => {
+    setDomLoaded(true);
+  }, []);
 
-  // if(isLoading){
-  //   return(
-  //     <div className='text-5xl font-bold flex justify-center my-20 gap-10'>
-  //       <div className="animate-spin rounded-full h-14 w-14 border-t-4 border-blue-500"></div>
-  //       <h1>Loading...</h1>
-  //     </div>
-  //   );
-  // }
+
+  useEffect(() => {
+   async function callback(){
+     setIsLoading(true);
+     const data = await getTasksSDK();
+     setTasks(data);
+     setIsLoading(false);
+    }
+    callback();
+  }, [])
+
+  if(isLoading){
+    return(
+      <div className='text-5xl font-bold flex justify-center my-20 gap-10'>
+         <div className="animate-spin rounded-full h-14 w-14 border-t-4 border-blue-500"></div>
+         <h1>Loading...</h1>
+      </div>
+     );
+   }
+
 
   return (
     
     <main className=' '>
+      {domLoaded && (
       <div className='mx-16 pb-20'>
-        <h1 className='text-5xl font-bold py-10'>Tasks</h1>
+        <h1 className='text-4xl font-bold py-10'>Tasks</h1>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10'>
         {tasks?.map((note) => {
           return (
@@ -48,6 +54,7 @@ export default async function Home() {
         <AddButton></AddButton>
         </div>
       </div>
+      )}
     </main>
   )
 }
